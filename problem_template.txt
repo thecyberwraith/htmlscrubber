@@ -1,0 +1,63 @@
+<div class="lptablewrapper">
+<div class="lptabletop">
+<div class="lpcell"><span class="lpquestion">{title}</span></div>
+</div>
+</div>
+
+<div class="lptablewrapper">
+<div class="lptable">
+<div class="lprow">
+<div class="lpcellleft">
+<div class="lptableleft">
+<div class="firstradio lprow">
+<div class="radio left lpcell"><input id="choice1" name="choice" type="radio" value="choice1" /> a)</div>
+</div>
+
+<div class="secondradio lprow">
+<div class="radio left lpcell"><input id="choice2" name="choice" type="radio" value="choice2" /> b)</div>
+</div>
+
+<div class="thirdradio lprow">
+<div class="radio left last lpcell"><input id="choice3" name="choice" type="radio" value="choice3" /> c)</div>
+</div>
+</div>
+</div>
+
+<div class="lpcellleft">
+<div class="lptableleft">
+<div class="firstchoice lprow">
+<div class="left lpcell"><span>{choice1}</span></div>
+</div>
+
+<div class="secondchoice lprow">
+<div class="left lpcell"><span>{choice2}</span></div>
+</div>
+
+<div class="thirdchoice lprow">
+<div class="left last lpcell"><span>{choice3}</span></div>
+</div>
+</div>
+</div>
+
+<div class="lpcellright">
+<div class="firstanswer answerboxes" id="answer1">
+<div class="response" id="response1">{response1}</div>
+
+{answer1}
+</div>
+
+<div class="secondanswer answerboxes" id="answer2">
+<div class="response" id="response2">{response2}</div>
+
+{answer2}
+</div>
+
+<div class="thirdanswer answerboxes" id="answer3">
+<div class="response" id="response3">{response3}</div>
+
+{answer3}
+</div>
+</div>
+</div>
+</div>
+</div>

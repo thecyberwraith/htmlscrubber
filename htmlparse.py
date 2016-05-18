@@ -156,7 +156,7 @@ class DefaultSpanConverter(InlineTagConverter):
             if attr[0] == 'style':
                 old_color = attr[1][7:]
 
-                color_dict = {
+                color_dict = { # What new color hex values are
                     'cyan': '009E73',
                     'purple': 'CC79A7',
                     'yellow': 'E65F00',
@@ -166,22 +166,26 @@ class DefaultSpanConverter(InlineTagConverter):
                     'brightyellow': 'F0E442'
                 }
 
-                old_color_rev_dict = {
+                old_color_rev_dict = { # What old hex looked like
                     'FF00FF': 'magenta',
                     'FF0000': 'red',
                     '996633': 'brown',
                     '00FF00': 'green',
-                    '7F4040': 'maroon'
+                    '7F4040': 'maroon',
+                    '0000FF': 'blue'
                 }
 
-                conversion_dict = {
+                conversion_dict = { # What the color was to what it should be
                     'magenta': 'navy',
                     'red': 'yellow',
                     'brown': 'purple',
                     'green': 'brown',
-                    'maroon': 'cyan'
+                    'maroon': 'cyan',
+                    'blue': 'navy'
                 }
 
                 return [('style', 'color:#{};'.format(
                     color_dict[conversion_dict[old_color_rev_dict[old_color]]]
                     ))]
+        else:
+            return []

@@ -59,7 +59,7 @@ def execute():
         description='Custom script to parse old Math Emporium files',
         epilog='With no target specified, then all sections are parsed')
 
-    parser.add_argument('-filename', type=str,
+    parser.add_argument('filename', type=str,
         help='The file name located in the "raw" directory')
 
     parser.add_argument('-discussion', dest='targets', action='append_const',

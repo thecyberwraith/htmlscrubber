@@ -28,7 +28,6 @@ class TopicDiscussionParser(CustomHTMLParser):
             'b': partial(InlineTagConverter, 'strong', attrs),
             'i': partial(InlineTagConverter, 'i', attrs),
             'a': partial(HyperlinkTagConverter, attrs),
-            'span' : partial(InlineTagConverter, 'span', attrs),
             'table' : partial(TagConverter, include=True),
             'tbody' : partial(TagConverter, include=True),
             'tr' : partial(TagConverter, include=True),
@@ -43,6 +42,8 @@ class TopicDiscussionParser(CustomHTMLParser):
             elif ('class', 'beigebox') in attrs:
                 new_converter = NewlineTagConverter('div', level, [('class',
                 'defbox')])
+            elif ('class', 'popuphelpp1') in attrs:
+                new_converter = NewlineTagConverter('div', level, [('class', 'hintbox'), ('id', 'hintContainer?')])
             else:
                 new_converter = TagConverter(include=True)
         elif tag == 'img':
@@ -50,6 +51,8 @@ class TopicDiscussionParser(CustomHTMLParser):
         elif tag == 'span':
             if ('class', 'title') in attrs:
                 new_converter = TitleConverter(attrs)
+            elif ('class', 'flyouthelp') in attrs:
+                new_converter = InlineTagConverter('a', [('id', 'hintLink?')])
             else:
                 new_converter = DefaultSpanConverter(attrs)
         else:

@@ -139,7 +139,7 @@ def prepare_folder(foldername):
         logging.warn('Directory already exists. May overwrite files')
 
     filenamebuilder = lambda x: os.path.join(dirpath, x) + '.html'
-    outputs = tuple(map(filenamebuilder, ['discussion', 'examples', 'problems']))
+    outputs = tuple(map(filenamebuilder, ['discussion', 'examples', 'problem']))
 
     return (filename,) + outputs
 

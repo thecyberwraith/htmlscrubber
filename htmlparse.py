@@ -22,7 +22,7 @@ class CustomHTMLParser(HTMLParser):
         self._tag_converters.pop(-1)
 
     def handle_data(self, data):
-        data = data.replace('\n', '').replace('\r', '').lstrip().rstrip()
+        data = data.replace('\n', '').replace('\r', '').replace('\t', '')
         if all(self._tag_converters) and data:
             self._tag_converters[-1].on_tag_data(self._handler, data)
 
@@ -108,8 +108,8 @@ class InlineTagConverter(WrappedTagConverter):
     Same as parent, but add spaces around the tag
     '''
     
-    def __init__(self, tag_name, level, **attrs):
-        super(InlineTagConverter, self).__init__(tag_name, level)
+    def __init__(self, tag_name, attrs):
+        super(InlineTagConverter, self).__init__(tag_name, attrs)
         self.start_tag = ' ' + self.start_tag
         self.end_tag = self.end_tag + ' '
 

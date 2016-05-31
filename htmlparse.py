@@ -174,7 +174,8 @@ class DefaultSpanConverter(InlineTagConverter):
                     '996633': 'brown',
                     '00FF00': 'green',
                     '7F4040': 'maroon',
-                    '0000FF': 'blue'
+                    '0000FF': 'blue',
+                    '800080': 'purple'
                 }
 
                 conversion_dict = { # What the color was to what it should be
@@ -183,7 +184,8 @@ class DefaultSpanConverter(InlineTagConverter):
                     'brown': 'purple',
                     'green': 'brown',
                     'maroon': 'cyan',
-                    'blue': 'navy'
+                    'blue': 'navy',
+                    'purple': 'purple'
                 }
 
                 return [('style', 'color:#{};'.format(

@@ -58,6 +58,9 @@ class ProblemParser(CustomHTMLParser):
                     logging.debug('Correct [{}]: {}'.format(self._target, data))
                     self._data[target] = True
                     data = data[25:]
+                elif not target in self._data:
+                    self._data[target] = False
+
             logging.debug('{} -> {}'.format(self._target, data))
             self._data[self._target] += data
 

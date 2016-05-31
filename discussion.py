@@ -16,8 +16,8 @@ class TopicDiscussionParser(CustomHTMLParser):
     the option to typeset image files if possible.
     '''
 
-    def __init__(self, file_handler, ignore_images):
-        super(TopicDiscussionParser, self).__init__(file_handler, ignore_images)
+    def __init__(self, file_handler, ignore_images, config):
+        super(TopicDiscussionParser, self).__init__(file_handler, ignore_images, config)
 
     def handle_starttag(self, tag, attrs):
         print('{} + {}'.format(self._tag_converters, tag))

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import configparser
 from html.parser import HTMLParser
 import logging
 import os
@@ -54,6 +55,8 @@ class FirstPassParser(HTMLParser):
 
 def execute():
     logging.getLogger().setLevel(logging.DEBUG)
+    config = configparser.ConfigParser()
+    config.read('config.ini')
 
     parser = argparse.ArgumentParser(
         description='Custom script to parse old Math Emporium files',
@@ -76,9 +79,9 @@ def execute():
 
     logging.info('Scrubbing file "raw/{}.html"'.format(args.filename))
 
-    scrub_file(args)
+    scrub_file(args, config)
 
-def scrub_file(args):
+def scrub_file(args, config):
     '''
     Goes through the process of setting up the files to write to then converting
     the original file.
@@ -111,12 +114,12 @@ def scrub_file(args):
     for target, parser_class, line_range, ofilename in zip(targets, parser_classes, positions, outputfilenames):
         if target in args.targets:
             logging.info('Parsing {}...'.format(target))
-            parse_section(parser_class, line_range, filename, ofilename, args.ignore_images)
+            parse_section(parser_class, line_range, filename, ofilename, args.ignore_images, config)
 
-def parse_section(parser_class, line_range, filename, outputfilename, ignore_images):
+def parse_section(parser_class, line_range, filename, outputfilename, ignore_images, config):
     start_line, end_line = line_range
     with open(filename) as infile, open(outputfilename, 'w') as outfile:
-        parser = parser_class(outfile, ignore_images)
+        parser = parser_class(outfile, ignore_images, config)
         for line_number, line in enumerate(infile):
             if start_line <= line_number <= end_line:
                 parser.feed(line)

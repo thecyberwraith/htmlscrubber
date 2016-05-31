@@ -7,8 +7,8 @@ from htmlparse import *
 
 
 class ExampleParser(CustomHTMLParser):
-    def __init__(self, outputfile, ignore_images):
-        super(ExampleParser, self).__init__(outputfile, ignore_images)
+    def __init__(self, outputfile, ignore_images, config):
+        super(ExampleParser, self).__init__(outputfile, ignore_images, config)
         self._current_example = 0
         self._example_table_tag = None
         self._last_popped = None

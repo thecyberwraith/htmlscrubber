@@ -163,7 +163,7 @@ class DefaultSpanConverter(InlineTagConverter):
                     'purple': 'CC79A7',
                     'yellow': 'E65F00',
                     'navy': '0072B2',
-                    'brown': 'D55E00',
+                    'orange': 'D55E00',
                     'skyblue': '56B4E9',
                     'brightyellow': 'F0E442'
                 }
@@ -171,21 +171,24 @@ class DefaultSpanConverter(InlineTagConverter):
                 old_color_rev_dict = { # What old hex looked like
                     'FF00FF': 'magenta',
                     'FF0000': 'red',
-                    '996633': 'brown',
+                    '996633': 'orange',
+                    'FF9900': 'orange',
+                    'FF8000': 'orange',
                     '00FF00': 'green',
                     '7F4040': 'maroon',
                     '0000FF': 'blue',
-                    '800080': 'purple'
+                    '800080': 'purple',
                 }
 
                 conversion_dict = { # What the color was to what it should be
                     'magenta': 'navy',
                     'red': 'yellow',
                     'brown': 'purple',
-                    'green': 'brown',
+                    'green': 'orange',
                     'maroon': 'cyan',
                     'blue': 'navy',
-                    'purple': 'purple'
+                    'purple': 'purple',
+                    'orange': 'orange'
                 }
 
                 return [('style', 'color:#{};'.format(

@@ -54,7 +54,7 @@ class TopicDiscussionParser(CustomHTMLParser):
             elif ('class', 'flyouthelp') in attrs:
                 new_converter = InlineTagConverter('a', [('id', 'hintLink?')])
             else:
-                new_converter = DefaultSpanConverter(attrs)
+                new_converter = DefaultSpanConverter(attrs, self._config)
         else:
             if tag in tag_map:
                 new_converter = tag_map[tag]()

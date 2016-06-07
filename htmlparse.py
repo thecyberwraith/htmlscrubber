@@ -12,8 +12,8 @@ class CustomHTMLParser(HTMLParser):
         super(CustomHTMLParser, self).__init__()
         self._handler = file_handler
         self._ignore_images = ignore_images
-        self._image_command = config['DEFAULT']['image_command']
-        self._default_img_text = config['DEFAULT']['default_image_text']
+        self._config = config
+
         # Keep a list of tag converters. Every time a new tag is encountered, we
         # push the appropriate converter on the stack. The top converter handles
         # the data, and we pop it when the end tag is encountered.
@@ -39,11 +39,12 @@ class CustomHTMLParser(HTMLParser):
                 content = ''
                 if not self._ignore_images:
                     imgpath = os.path.join('raw', value)
-                    os.system(self._image_command.format(imgpath))
+                    img_show_command = self._config['DEFAULT']['image_command']
+                    os.system(img_show_command.format(imgpath))
                     content = input('? ')
 
                 if not content:
-                    content = self._default_img_text
+                    content = self._config['DEFAULT']['default_image_text']
                 
                 return content
                 
@@ -149,50 +150,29 @@ class HyperlinkTagConverter(InlineTagConverter):
 
 
 class DefaultSpanConverter(InlineTagConverter):
-    def __init__(self, attrs):
-        new_color_attrs = self.get_color(attrs)
+    def __init__(self, attrs, config):
+        new_color_attrs = self.get_color(attrs, config)
         super(DefaultSpanConverter, self).__init__('span', new_color_attrs)
 
-    def get_color(self, attrs):
+    def get_color(self, attrs, config):
         for attr in attrs:
             if attr[0] == 'style':
-                old_color = attr[1][7:]
+                old_color_hex = attr[1][7:]
+                try:
+                    old_color_name = config['OLD_COLOR_NAMES'][old_color_hex]
+                except KeyError:
+                    raise KeyError('Hex value {} not specified in config'.format(old_color_hex))
 
-                color_dict = { # What new color hex values are
-                    'cyan': '009E73',
-                    'purple': 'CC79A7',
-                    'yellow': 'E65F00',
-                    'navy': '0072B2',
-                    'orange': 'D55E00',
-                    'skyblue': '56B4E9',
-                    'brightyellow': 'F0E442'
-                }
+                try:
+                    new_color_name = config['COLOR_MAPPING'][old_color_name]
+                except KeyError:
+                    raise KeyError('Conversion of color {} not handled in config file'.format(old_color_name))
 
-                old_color_rev_dict = { # What old hex looked like
-                    'FF00FF': 'magenta',
-                    'FF0000': 'red',
-                    '996633': 'orange',
-                    'FF9900': 'orange',
-                    'FF8000': 'orange',
-                    '00FF00': 'green',
-                    '7F4040': 'maroon',
-                    '0000FF': 'blue',
-                    '800080': 'purple',
-                }
+                try:
+                    new_color_hex = config['NEW_COLOR_HEX_VALUES'][new_color_name]
+                except KeyError:
+                    raise KeyError('Hex value for color {} not provided in config file'.format(new_color_name))
 
-                conversion_dict = { # What the color was to what it should be
-                    'magenta': 'navy',
-                    'red': 'yellow',
-                    'brown': 'purple',
-                    'green': 'orange',
-                    'maroon': 'cyan',
-                    'blue': 'navy',
-                    'purple': 'purple',
-                    'orange': 'orange'
-                }
-
-                return [('style', 'color:#{};'.format(
-                    color_dict[conversion_dict[old_color_rev_dict[old_color]]]
-                    ))]
+                return [('style', 'color:#{};'.format(new_color_hex))]
         else:
             return []

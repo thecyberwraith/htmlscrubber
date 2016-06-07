@@ -38,7 +38,7 @@ class ExampleParser(CustomHTMLParser):
                     new_tag = NewlineTagConverter('div', level,
                         [('class', 'hintbox'), ('id', 'exampleHint{}-{}'.format(example, hint))])
             else:
-                new_tag = TagConverter(include=True)
+                new_tag = DefaultSpanConverter(attrs, self._config)
         elif tag == 'table':
                 # Table to store the examples
             if ('class', 'example') in attrs:

@@ -71,8 +71,8 @@ class ProblemParser(CustomHTMLParser):
             self.finalize()
 
     def finalize(self):
-        logging.info(self._data)
-        logging.info(self._data.keys())
+        logging.debug('Finalized Data: {}'.format(self._data))
+        logging.debug('Recovered Data Keys: {}'.format(self._data.keys()))
         
         # For each item, we must wrap the correct solution/answer in an
         # appropriately formatted div.

@@ -20,7 +20,7 @@ class TopicDiscussionParser(CustomHTMLParser):
         super(TopicDiscussionParser, self).__init__(file_handler, ignore_images, config)
 
     def handle_starttag(self, tag, attrs):
-        print('{} + {}'.format(self._tag_converters, tag))
+        logging.debug('{} + {}'.format(self._tag_converters, tag))
         level = len(self._tag_converters)
 
         tag_map = {
@@ -59,7 +59,7 @@ class TopicDiscussionParser(CustomHTMLParser):
             if tag in tag_map:
                 new_converter = tag_map[tag]()
             else:
-                logging.warning('Tag "{}" not supported'.format(tag))
+                logging.debug('Tag "{}" not supported'.format(tag))
 
         if not new_converter is None:
             self._tag_converters.append(new_converter)

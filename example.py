@@ -79,7 +79,7 @@ class ExampleParser(CustomHTMLParser):
                     self._last_popped.close_tag_with_link(self._handler, link)
                     self._last_popped = None
                 else:
-                    logging.error('what is this? {} <-------------'.format(attrs))
+                    logging.debug('what is this? {} <-------------'.format(attrs))
             else:
                 self.handle_image(attrs)
         elif tag == 'div':
@@ -134,7 +134,7 @@ class ExamplePartConverter(NewlineTagConverter):
         pass
 
     def close_tag_with_link(self, writer, link):
-        logging.info('Closing tag with link {}'.format(link))
+        logging.debug('Closing tag with link {}'.format(link))
         super(ExamplePartConverter, self).on_tag_data(writer, link)
         super(ExamplePartConverter, self).on_tag_end(writer)
 

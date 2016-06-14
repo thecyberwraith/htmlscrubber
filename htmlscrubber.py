@@ -63,20 +63,26 @@ def execute():
         epilog='With no target specified, then all sections are parsed')
 
     parser.add_argument('filename', type=str,
-        help='The file name located in the "raw" directory')
+        help='The file name located in the "raw" directory.')
 
     parser.add_argument('-discussion', dest='targets', action='append_const',
-        const='discussion', help='Flag to specifically parse the topic discussion')
+        const='discussion',
+        help='Flag to specifically parse the topic discussion.')
     parser.add_argument('-examples', dest='targets', action='append_const',
-        const='examples', help='Flag to specifically parse the examples')
+        const='examples', help='Flag to specifically parse the examples.')
     parser.add_argument('-problem', dest='targets', action='append_const',
-        const='problem', help='Flag to specifically parse the section problem')
+        const='problem', help='Flag to specifically parse the section problem.')
 
     parser.add_argument('-ignore_images', action='store_true', 
-            help='Force the program to ignore all images and insert placeholders.')
+        help='Force the program to ignore all images and insert placeholders.')
+    parser.add_argument('-verbose', action='store_true',
+        help='Set the logger level to debug (default is info) after startup.')
 
     args = parser.parse_args()
-
+    
+    logging.getLogger().setLevel(logging.INFO)
+    if args.verbose:
+        logging.getLogger().setLevel(logging.DEBUG)
     logging.info('Scrubbing file "raw/{}.html"'.format(args.filename))
 
     scrub_file(args, config)

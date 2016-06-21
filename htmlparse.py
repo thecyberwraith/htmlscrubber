@@ -1,6 +1,7 @@
 from html.parser import HTMLParser
 import logging
 import os
+import tempfile
 
 class CustomHTMLParser(HTMLParser):
     '''
@@ -38,10 +39,33 @@ class CustomHTMLParser(HTMLParser):
                 logging.info('Handling image {}'.format(value))
                 content = ''
                 if not self._ignore_images:
+                    # Show the image using config command
                     imgpath = os.path.join('raw', value)
                     img_show_command = self._config['DEFAULT']['image_command']
-                    os.system(img_show_command.format(imgpath))
-                    content = input('? ')
+                    img_show_command = img_show_command.format(imgpath)
+                    os.system(img_show_command)
+
+                    # Ask the user for the text. Do this by create a file that
+                    # the user can modify with the specified text editor in the
+                    # config.
+                    with tempfile.TemporaryDirectory() as tmpdir:
+                        # Name of the file will be the image basename
+                        filename = os.path.basename(imgpath)
+                        filename = os.path.splitext(filename)[0]
+                        filename += '.tex'
+                        filename = os.path.join(tmpdir, filename)
+                        open(filename, 'a').close() # Just make the file
+
+                        text_edit_command = self._config['DEFAULT']['text_edit_command']
+                        text_edit_command = text_edit_command.format(filename)
+                        os.system(text_edit_command)
+
+                        with open(filename) as tmpfile:
+                            content = tmpfile.read().rstrip()
+                            if content == self._config['DEFAULT']['abort_text']:
+                                raise Exception('Abort text encountered while handling image')
+                        # Closes file
+                    # Removes temporary directory
 
                 if not content:
                     content = self._config['DEFAULT']['default_image_text']

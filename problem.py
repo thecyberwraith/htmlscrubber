@@ -51,10 +51,10 @@ class ProblemParser(CustomHTMLParser):
             # we are correct or not. This requires its own formatting
             if self._target.startswith('answer'):
                 target = 'is{}correct'.format(self._target[-1])
-                if 'This answer is incorrect.' in data:
+                if 'This answer is incorrect' in data:
                     self._data[target] = False
                     data = data[25:]
-                elif 'This answer is correct.' in data:
+                elif 'This answer is correct' in data:
                     logging.debug('Correct [{}]: {}'.format(self._target, data))
                     self._data[target] = True
                     data = data[25:]

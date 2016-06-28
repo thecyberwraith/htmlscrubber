@@ -162,7 +162,7 @@ class NewlineTagConverter(WrappedTagConverter):
 
 class TitleConverter(WrappedTagConverter):
     def __init__(self, attrs):
-        super(TitleConverter, self).__init__('p', attrs)
+        super(TitleConverter, self).__init__('p', [])
         self.start_tag = self.start_tag + '<strong>'
         self.end_tag = '</strong>' + self.end_tag + '\n'
 

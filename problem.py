@@ -14,6 +14,8 @@ class ProblemParser(CustomHTMLParser):
             self._level += 1
             if ('class', 'title') in attrs:
                 self._target = 'title'
+            elif ('class', 'hint') in attrs:
+                self._target = 'answer' + self.get_id(attrs)[2]
             else:
                 try:
                     self._target = self.get_id(attrs)

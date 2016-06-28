@@ -9,10 +9,10 @@ class CustomHTMLParser(HTMLParser):
     the option to typeset image files if possible.
     '''
 
-    def __init__(self, file_handler, ignore_images, config):
+    def __init__(self, file_handler, interactive, config):
         super(CustomHTMLParser, self).__init__()
         self._handler = file_handler
-        self._ignore_images = ignore_images
+        self._interactive = interactive
         self._config = config
 
         # Keep a list of tag converters. Every time a new tag is encountered, we
@@ -38,7 +38,7 @@ class CustomHTMLParser(HTMLParser):
             if attr == 'src':
                 logging.info('Handling image {}'.format(value))
                 content = ''
-                if not self._ignore_images:
+                if self._interactive:
                     # Show the image using config command
                     imgpath = os.path.join('raw', value)
                     img_show_command = self._config['DEFAULT']['image_command']

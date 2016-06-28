@@ -3,8 +3,8 @@ import logging
 from htmlparse import CustomHTMLParser
 
 class ProblemParser(CustomHTMLParser):
-    def __init__(self, outputfile, ignore_images, config):
-        super(ProblemParser, self).__init__(outputfile, ignore_images, config)
+    def __init__(self, outputfile, interactive, config):
+        super(ProblemParser, self).__init__(outputfile, interactive, config)
         self._data = {}
         self._target = None
         self._level = 0

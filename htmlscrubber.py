@@ -73,8 +73,8 @@ def execute():
     parser.add_argument('-problem', dest='targets', action='append_const',
         const='problem', help='Flag to specifically parse the section problem.')
 
-    parser.add_argument('-ignore_images', action='store_true', 
-        help='Force the program to ignore all images and insert placeholders.')
+    parser.add_argument('-interactive', action='store_true', 
+        help='Switch the program to interactive mode.')
     parser.add_argument('-verbose', action='store_true',
         help='Set the logger level to debug (default is info) after startup.')
 
@@ -120,12 +120,12 @@ def scrub_file(args, config):
     for target, parser_class, line_range, ofilename in zip(targets, parser_classes, positions, outputfilenames):
         if target in args.targets:
             logging.info('Parsing {}...'.format(target))
-            parse_section(parser_class, line_range, filename, ofilename, args.ignore_images, config)
+            parse_section(parser_class, line_range, filename, ofilename, args.interactive, config)
 
-def parse_section(parser_class, line_range, filename, outputfilename, ignore_images, config):
+def parse_section(parser_class, line_range, filename, outputfilename, interactive, config):
     start_line, end_line = line_range
     with open(filename) as infile, open(outputfilename, 'w') as outfile:
-        parser = parser_class(outfile, ignore_images, config)
+        parser = parser_class(outfile, interactive, config)
         for line_number, line in enumerate(infile):
             if start_line <= line_number <= end_line:
                 parser.feed(line)

@@ -182,6 +182,8 @@ class DefaultSpanConverter(InlineTagConverter):
         for attr in attrs:
             if attr[0] == 'style':
                 old_color_hex = attr[1][7:]
+                if old_color_hex == '': # Somehow this was possible in the old format
+                    return []
                 try:
                     old_color_name = config['OLD_COLOR_NAMES'][old_color_hex]
                 except KeyError:

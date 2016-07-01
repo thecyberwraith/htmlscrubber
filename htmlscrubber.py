@@ -54,7 +54,6 @@ class FirstPassParser(HTMLParser):
                 self._currentlevel = self._page = -1
 
 def execute():
-    logging.getLogger().setLevel(logging.DEBUG)
     config = configparser.ConfigParser()
     config.read('config.ini')
 
@@ -145,13 +144,24 @@ def prepare_folder(foldername):
         logging.info('Creating directory {}'.format(dirpath))
         os.mkdir(dirpath)
     else:
-        logging.warn('Directory already exists. May overwrite files')
+        logging.warn('Directory already exists. Will overwrite files')
 
     filenamebuilder = lambda x: os.path.join(dirpath, x) + '.html'
     outputs = tuple(map(filenamebuilder, ['discussion', 'examples', 'problem']))
 
     return (filename,) + outputs
 
+def format_logging():
+    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().addHandler(logging.FileHandler(
+        'htmlscrubber.log',
+        mode='w'))
+    logging.getLogger().addHandler(logging.StreamHandler())
+
 
 if __name__ == '__main__':
-    execute()
+    format_logging()
+    try:
+        execute()
+    except Exception as e:
+        logging.exception('Scrubber encountered error. Exiting.')
